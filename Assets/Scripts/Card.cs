@@ -9,15 +9,48 @@ public class Card
     private int myCost = 0;
     private bool myUsed = false;
 
-    public void InitCard(CardType aCardType, int aValue, int aCost)
+    public void InitCard(CardType aCardType, int aValue)
     {
         myCardType = aCardType;
         myValue = aValue;
-        myCost = aCost;
         myCurrentValue = myValue;
 
         if (myCardType == CardType.BOW || myCardType == CardType.SPELL)
             myCurrentValue = 1;
+
+        switch (aCardType)
+        {
+            case CardType.MOVEMENTLEFT:
+                {
+                    myCost = myValue;
+                    break;
+                }
+            case CardType.MOVEMENTRIGHT:
+                {
+                    myCost = myValue;
+                    break;
+                }
+            case CardType.SHIELD:
+                {
+                    myCost = myValue;
+                    break;
+                }
+            case CardType.SWORD:
+                {
+                    myCost = 4 * myValue;
+                    break;
+                }
+            case CardType.SPELL:
+                {
+                    myCost = 4 * myValue;
+                    break;
+                }
+            case CardType.BOW:
+                {
+                    myCost = 15;
+                    break;
+                }
+        }
     }
 
     public void ResetUsage()
@@ -39,6 +72,11 @@ public class Card
     public int GetCurrentValue()
     {
         return myCurrentValue;
+    }
+
+    public int GetCost()
+    {
+        return myCost;
     }
 
     public void Use()

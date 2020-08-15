@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        myPlayer1 = new Player();
-        myPlayer2 = new Player();
+        myPlayer1 = new Player(1);
+        myPlayer2 = new Player(2);
 
         StartCoroutine("GameLoop");
     }
@@ -240,6 +240,50 @@ public class GameManager : MonoBehaviour
                                 }
                                 break;
                             }
+                        case CardType.BOW:
+                            {
+                                if (!localCard1.GetUsed())
+                                {
+                                    localCard1.SetUsed(true);
+                                    //safe
+                                    if (localCard2.GetCardType() == CardType.SHIELD)
+                                    {
+
+                                    }
+                                    //attack
+                                    else
+                                    {
+                                        myPlayer2.TakeHit();
+                                        CheckHealth();
+                                    }
+                                }
+                                break;
+                            }
+                        case CardType.SPELL:
+                            {
+                                if (!localCard1.GetUsed())
+                                {
+                                    localCard1.SetUsed(true);
+                                    //safe
+                                    if (localCard2.GetCardType() == CardType.MOVEMENTLEFT || localCard2.GetCardType() == CardType.MOVEMENTRIGHT ||
+                                        myPlayer2Position - myPlayer1Position > localCard1.GetCurrentValue())
+                                    {
+
+                                    }
+                                    //attack
+                                    else
+                                    {
+                                        myPlayer2.TakeHit();
+                                        CheckHealth();
+                                    }
+                                }
+                                break;
+                            }
+                        case CardType.SHIELD:
+                            {
+
+                                break;
+                            }
                     }
                 }
                 if (localCard2.GetCurrentValue() > 0)
@@ -304,6 +348,50 @@ public class GameManager : MonoBehaviour
                                 {
                                     myPlayer2Position--;
                                 }
+                                break;
+                            }
+                        case CardType.BOW:
+                            {
+                                if (!localCard2.GetUsed())
+                                {
+                                    localCard2.SetUsed(true);
+                                    //safe
+                                    if (localCard1.GetCardType() == CardType.SHIELD)
+                                    {
+
+                                    }
+                                    //attack
+                                    else
+                                    {
+                                        myPlayer1.TakeHit();
+                                        CheckHealth();
+                                    }
+                                }
+                                break;
+                            }
+                        case CardType.SPELL:
+                            {
+                                if (!localCard2.GetUsed())
+                                {
+                                    localCard2.SetUsed(true);
+                                    //safe
+                                    if (localCard1.GetCardType() == CardType.MOVEMENTLEFT || localCard1.GetCardType() == CardType.MOVEMENTRIGHT ||
+                                        myPlayer2Position - myPlayer1Position > localCard2.GetCurrentValue())
+                                    {
+
+                                    }
+                                    //attack
+                                    else
+                                    {
+                                        myPlayer2.TakeHit();
+                                        CheckHealth();
+                                    }
+                                }
+                                break;
+                            }
+                        case CardType.SHIELD:
+                            {
+
                                 break;
                             }
                     }

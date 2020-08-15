@@ -25,4 +25,12 @@ public class GameSettings : MonoBehaviour
         else
             myPlayer2Deck = aDeck;
     }
+
+    public int GetPlayerDeck(int aPlayer)
+    {
+        if (aPlayer == 1)
+            return myPlayer1Deck;
+        else
+            return myPlayer2Deck;
+    }
 }
