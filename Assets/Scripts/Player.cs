@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Player
@@ -33,7 +34,16 @@ public class Player
     private void FillDeck()
     {
         Debug.Log("Player "+ myPlayerNumber + " choose deck " + GameSettings.GetInstance().GetPlayerDeck(myPlayerNumber));
-        string[] lines = File.ReadAllLines("Assets/Resources/Deck" + GameSettings.GetInstance().GetPlayerDeck(myPlayerNumber)+".json");
+
+        myDeckIndex = GameSettings.GetInstance().GetPlayerDeck(myPlayerNumber);
+
+        if(myDeckIndex == -1)
+        {
+            CreateRandomDeck();
+            return;
+        }
+
+        string[] lines = File.ReadAllLines("Assets/Resources/Deck" + myDeckIndex + ".json");
         if(lines != null)
         {
             for(int i = 0; i < lines.Length; i++)
@@ -45,6 +55,82 @@ public class Player
                 myDeck[i] = new Card();
                 myDeck[i].InitCard(cardType, value);
             }
+        }
+    }
+
+    private void CreateRandomDeck()
+    {
+        Debug.Log("Create Random Deck");
+
+        List<Card> deck = new List<Card>();
+
+        int total = 0;
+
+        CardType cardType = CardType.BOW;
+        int value = 1;
+        Card card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        cardType = CardType.MOVEMENTLEFT;
+        value = Random.Range(1, 6);
+        card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        cardType = CardType.MOVEMENTRIGHT;
+        value = Random.Range(1, 6);
+        card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        cardType = CardType.SHIELD;
+        value = Random.Range(1, 6);
+        card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        cardType = CardType.SPELL;
+        value = Random.Range(1, 6);
+        card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        cardType = CardType.SWORD;
+        value = Random.Range(1, 6);
+        card = new Card();
+        deck.Add(card);
+        card.InitCard(cardType, value);
+        total += card.GetCost();
+
+        int tries = 0;
+
+        while(tries < 10 && deck.Count < 10)
+        {
+            tries++;
+            cardType = (CardType)Random.Range(0, 6);
+            value = Random.Range(1, 6);
+
+            if (cardType == CardType.BOW && total + 15 > 100)
+                continue;
+            else if (cardType != CardType.BOW && total + value > 100)
+                continue;
+
+            card = new Card();
+            deck.Add(card);
+            card.InitCard(cardType, value);
+            total += card.GetCost();
+        }
+
+        myDeck = new Card[deck.Count];
+        for(int i = 0; i < myDeck.Length; i++)
+        {
+            myDeck[i] = deck[i];
         }
     }
 
@@ -61,14 +147,13 @@ public class Player
 
     private void CheckDeckValidity()
     {
-        //TODO : Add all card values to see if we are under 100 points
         int total = 0;
         for (int i = 0; i < myDeck.Length; i++)
         {
             if(myDeck[i] != null)
                 total += myDeck[i].GetCost();
         }
-        Debug.Log("Deck is " + total + " points");
+        Debug.Log("Deck is " + total + " points and " + myDeck.Length + " cards");
     }
 
     public Card[] GetChoices()

@@ -96,6 +96,6 @@ public class Card
 
     public void CardToString()
     {
-        Debug.Log(myCardType + " for " + myValue);
+        Debug.Log(myCardType + " for " + myValue + " of cost : " + myCost);
     }
 }
