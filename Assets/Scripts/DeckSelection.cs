@@ -17,7 +17,15 @@ public class DeckSelection : MonoBehaviour
     private Transform myPlayer2Panel = null;
     private void Start()
     {
-        DirectoryInfo info = new DirectoryInfo("Assets/Resources/Deck/");
+        string path = "";
+
+#if UNITY_EDITOR
+        path = "Assets/Resources/Deck/";
+#else
+        path =  Application.persistentDataPath + "/Resources/Deck/";
+#endif
+
+        DirectoryInfo info = new DirectoryInfo(path);
         FileInfo[] fileInfo = info.GetFiles();
         for (int i = 1; i < 3; i++)
         {

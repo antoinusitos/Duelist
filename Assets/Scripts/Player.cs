@@ -47,7 +47,7 @@ public class Player
 #if UNITY_EDITOR
         lines = File.ReadAllLines("Assets/Resources/Deck/" + myDeckIndex + ".json");
 #else
-        lines = File.ReadAllLines(Application.dataPath + "/Resources/Deck/" + myDeckIndex + ".json");
+        lines = File.ReadAllLines(Application.persistentDataPath + "/Resources/Deck/" + myDeckIndex + ".json");
 #endif
         if (lines != null)
         {

@@ -21,7 +21,15 @@ public class LoadDeck : MonoBehaviour
 
     private void Start()
     {
-        DirectoryInfo info = new DirectoryInfo("Assets/Resources/Deck/");
+        string path = "";
+
+#if UNITY_EDITOR
+        path = "Assets/Resources/Deck/";
+#else
+        path =  Application.persistentDataPath + "/Resources/Deck/";
+#endif
+
+        DirectoryInfo info = new DirectoryInfo(path);
         FileInfo[] fileInfo = info.GetFiles();
         foreach (FileInfo file in fileInfo)
         {
