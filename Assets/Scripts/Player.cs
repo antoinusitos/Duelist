@@ -43,8 +43,13 @@ public class Player
             return;
         }
 
-        string[] lines = File.ReadAllLines("Assets/Resources/Deck/" + myDeckIndex + ".json");
-        if(lines != null)
+        string[] lines = null;
+#if UNITY_EDITOR
+        lines = File.ReadAllLines("Assets/Resources/Deck/" + myDeckIndex + ".json");
+#else
+        lines = File.ReadAllLines(Application.dataPath + "/Resources/Deck/" + myDeckIndex + ".json");
+#endif
+        if (lines != null)
         {
             for(int i = 0; i < lines.Length; i++)
             {

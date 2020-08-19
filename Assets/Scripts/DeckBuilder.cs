@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
-
+#endif
 public class DeckBuilder : MonoBehaviour
 {
     [SerializeField]
@@ -61,7 +62,13 @@ public class DeckBuilder : MonoBehaviour
 
     public void Init(FileInfo aFile)
     {
-        StreamReader reader = new StreamReader("Assets/Resources/Deck/" + aFile.Name);
+        StreamReader reader = null;
+
+#if UNITY_EDITOR
+        reader = new StreamReader("Assets/Resources/Deck/" + aFile.Name);
+#else
+        reader = new StreamReader(Application.dataPath + "/Resources/Deck/" + aFile.Name);
+#endif
 
         List<string> lines = new List<string>();
         while (!reader.EndOfStream)
@@ -220,7 +227,14 @@ public class DeckBuilder : MonoBehaviour
         if (myCurrentDeckValue > 100)
             return;
 
-        string path = "Assets/Resources/Deck/" + myDeckName + ".json";
+        string path = "";
+
+#if UNITY_EDITOR
+        path = "Assets/Resources/Deck/" + myDeckName + ".json";
+#else
+        path = Application.dataPath + "/Resources/Deck/" + myDeckName + ".json";
+#endif
+
         StreamWriter writer = new StreamWriter(path, false);
         for (int i = 0; i < myDeck.Length; i++)
         {
@@ -230,9 +244,11 @@ public class DeckBuilder : MonoBehaviour
 
         Debug.Log("File saved");
 
-        if(Application.isEditor)
+#if UNITY_EDITOR
+        if (Application.isEditor)
         {
             AssetDatabase.ImportAsset("Assets/Resources/Deck/" + myDeckName + ".json");
         }
+#endif
     }
 }
