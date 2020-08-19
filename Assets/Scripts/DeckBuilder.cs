@@ -67,7 +67,7 @@ public class DeckBuilder : MonoBehaviour
 #if UNITY_EDITOR
         reader = new StreamReader("Assets/Resources/Deck/" + aFile.Name);
 #else
-        reader = new StreamReader(Application.persistentDataPath + "/Resources/Deck/" + aFile.Name);
+        reader = new StreamReader(Application.dataPath + "/Resources/Deck/" + aFile.Name);
 #endif
 
         List<string> lines = new List<string>();
@@ -229,10 +229,13 @@ public class DeckBuilder : MonoBehaviour
 
         string path = "";
 
+
 #if UNITY_EDITOR
+        Directory.CreateDirectory("Assets/Resources/Deck/");
         path = "Assets/Resources/Deck/" + myDeckName + ".json";
 #else
-        path = Application.persistentDataPath + "/Resources/Deck/" + myDeckName + ".json";
+        Directory.CreateDirectory(Application.dataPath + "/Resources/Deck/");
+        path = Application.dataPath + "/Resources/Deck/" + myDeckName + ".json";
 #endif
 
         StreamWriter writer = new StreamWriter(path, false);
@@ -245,10 +248,7 @@ public class DeckBuilder : MonoBehaviour
         Debug.Log("File saved");
 
 #if UNITY_EDITOR
-        if (Application.isEditor)
-        {
-            AssetDatabase.ImportAsset("Assets/Resources/Deck/" + myDeckName + ".json");
-        }
+        AssetDatabase.ImportAsset("Assets/Resources/Deck/" + myDeckName + ".json");
 #endif
     }
 }

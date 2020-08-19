@@ -26,7 +26,7 @@ public class LoadDeck : MonoBehaviour
 #if UNITY_EDITOR
         path = "Assets/Resources/Deck/";
 #else
-        path =  Application.persistentDataPath + "/Resources/Deck/";
+        path =  Application.dataPath + "/Resources/Deck/";
 #endif
 
         DirectoryInfo info = new DirectoryInfo(path);
