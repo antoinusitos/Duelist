@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -139,6 +140,10 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
         }
+
+        yield return new WaitForSeconds(5);
+
+        SceneManager.LoadScene(0);
     }
 
     public void SelectCard(Card aCard, int aPlayerNumber)
