@@ -4,8 +4,8 @@ public class GameSettings : MonoBehaviour
 {
     private static GameSettings myInstance = null;
 
-    private int myPlayer1Deck = -1;
-    private int myPlayer2Deck = -1;
+    private string myPlayer1Deck = "-1";
+    private string myPlayer2Deck = "-1";
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class GameSettings : MonoBehaviour
         return myInstance;
     }
 
-    public void SetPlayerDeck(int aPlayer, int aDeck)
+    public void SetPlayerDeck(int aPlayer, string aDeck)
     {
         if (aPlayer == 1)
             myPlayer1Deck = aDeck;
@@ -26,7 +26,7 @@ public class GameSettings : MonoBehaviour
             myPlayer2Deck = aDeck;
     }
 
-    public int GetPlayerDeck(int aPlayer)
+    public string GetPlayerDeck(int aPlayer)
     {
         if (aPlayer == 1)
             return myPlayer1Deck;

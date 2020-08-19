@@ -6,13 +6,23 @@ public class ButtonDeckSelection : MonoBehaviour
     [SerializeField]
     private int myPlayer = 1;
     [SerializeField]
-    private int myDeckSelection = 1;
+    private string myDeckSelection = "-1";
 
     private Image myImage = null;
 
     private void Awake()
     {
         myImage = GetComponent<Image>();
+    }
+
+    public void SetDeckSelection(string aSelection)
+    {
+        myDeckSelection = aSelection;
+    }
+
+    public void SetTeam(int aTeam)
+    {
+        myPlayer = aTeam;
     }
 
     public void ShowSelected(bool aNewState)
@@ -28,7 +38,7 @@ public class ButtonDeckSelection : MonoBehaviour
         return myPlayer;
     }
 
-    public int GetDeckSelection()
+    public string GetDeckSelection()
     {
         return myDeckSelection;
     }

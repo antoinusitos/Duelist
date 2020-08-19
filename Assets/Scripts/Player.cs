@@ -8,7 +8,7 @@ public class Player
 
     private Card[] myChoices = null;
 
-    private int myDeckIndex = 0;
+    private string myDeckIndex = "-1";
 
     private int myHealth = 3;
 
@@ -37,13 +37,13 @@ public class Player
 
         myDeckIndex = GameSettings.GetInstance().GetPlayerDeck(myPlayerNumber);
 
-        if(myDeckIndex == -1)
+        if(myDeckIndex == "-1")
         {
             CreateRandomDeck();
             return;
         }
 
-        string[] lines = File.ReadAllLines("Assets/Resources/Deck" + myDeckIndex + ".json");
+        string[] lines = File.ReadAllLines("Assets/Resources/Deck/" + myDeckIndex + ".json");
         if(lines != null)
         {
             for(int i = 0; i < lines.Length; i++)
