@@ -15,7 +15,7 @@ public class Card
         myValue = aValue;
         myCurrentValue = myValue;
 
-        if (myCardType == CardType.BOW || myCardType == CardType.SPELL)
+        if (myCardType == CardType.BOW)
             myCurrentValue = 1;
 
         switch (aCardType)

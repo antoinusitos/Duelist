@@ -158,6 +158,11 @@ public class DeckBuilder : MonoBehaviour
         ChangeImage();
         myInspectCost.text = aCard.GetCost().ToString();
         myInspectValue.text = aCard.GetCurrentValue().ToString();
+
+        if (aCard.GetCardType() == CardType.BOW)
+            myNewValueSlider.gameObject.SetActive(false);
+        else
+            myNewValueSlider.gameObject.SetActive(true);
     }
 
     private void ChangeImage()
@@ -202,7 +207,11 @@ public class DeckBuilder : MonoBehaviour
         CardType type = (CardType)aType;
         myNewValueSlider.value = 1;
         myFocusedCard.InitCard(type, (int)myNewValueSlider.value);
-        myInspectCost.text = myFocusedCard.GetCost().ToString();
+        if (type == CardType.BOW)
+            myNewValueSlider.gameObject.SetActive(false);
+        else
+            myNewValueSlider.gameObject.SetActive(true);
+            myInspectCost.text = myFocusedCard.GetCost().ToString();
         myInspectValue.text = myFocusedCard.GetCurrentValue().ToString();
         ChangeImage();
         Calculate();
