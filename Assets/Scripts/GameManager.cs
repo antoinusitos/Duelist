@@ -56,6 +56,20 @@ public class GameManager : MonoBehaviour
 
     private bool myIsInResolution = false;
 
+    [SerializeField]
+    private GameObject myPlayer1Card = null;
+    [SerializeField]
+    private GameObject myPlayer2Card = null;
+
+    [SerializeField]
+    private Image myPlayer1Choice = null;
+    [SerializeField]
+    private Text myPlayer1ChoiceValue = null;
+    [SerializeField]
+    private Image myPlayer2Choice = null;
+    [SerializeField]
+    private Text myPlayer2ChoiceValue = null;
+
     private void Start()
     {
         myPlayer1 = new Player(1);
@@ -124,9 +138,35 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            myPlayerTurnText.text = "RESOLUTION...";
-            myResolutionText.text = "Player 1 took :" + myPlayer1PickedCard.GetCardType() + " of " + myPlayer1PickedCard.GetValue() + "\n" +
-                                    "Player 2 took :" + myPlayer2PickedCard.GetCardType() + " of " + myPlayer2PickedCard.GetValue();
+            myPlayer1Card.transform.rotation = Quaternion.Euler(0, 90, 0);
+            myPlayer2Card.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+            myPlayer1Card.SetActive(true);
+            myPlayer2Card.SetActive(true);
+
+            myPlayer1Choice.sprite = Data.GetSpriteOfType(myPlayer1PickedCard.GetCardType());
+            myPlayer1ChoiceValue.text = myPlayer1PickedCard.GetValue().ToString();
+            myPlayer2Choice.sprite = Data.GetSpriteOfType(myPlayer2PickedCard.GetCardType());
+            myPlayer2ChoiceValue.text = myPlayer2PickedCard.GetValue().ToString();
+
+            myResolutionText.text = "RESOLUTION...";
+            //myResolutionText.text = "Player 1 took :" + myPlayer1PickedCard.GetCardType() + " of " + myPlayer1PickedCard.GetValue() + "\n" +
+                                    //"Player 2 took :" + myPlayer2PickedCard.GetCardType() + " of " + myPlayer2PickedCard.GetValue();
+            Debug.Log("Player 1 took :" + myPlayer1PickedCard.GetCardType() + " of " + myPlayer1PickedCard.GetValue() + "\n" +
+                                    "Player 2 took :" + myPlayer2PickedCard.GetCardType() + " of " + myPlayer2PickedCard.GetValue());
+
+            yield return new WaitForSeconds(0.5f);
+
+            float timer = 0;
+            while(timer < 2)
+            {
+                myPlayer1Card.transform.rotation = Quaternion.Euler(0, timer * 360 * 2, 0);
+                myPlayer2Card.transform.rotation = Quaternion.Euler(0, timer * 360 * 2, 0);
+                //myPlayer1Card.transform.Rotate(Vector3.up, Time.deltaTime * 1000);
+                //myPlayer2Card.transform.Rotate(Vector3.up, Time.deltaTime * 1000);
+                timer += Time.deltaTime;
+                yield return null;
+            }
 
             StartCoroutine(Resolution());
 
@@ -134,6 +174,9 @@ public class GameManager : MonoBehaviour
             {
                 yield return null;
             }
+
+            myPlayer1Card.SetActive(false);
+            myPlayer2Card.SetActive(false);
 
             myPlayer1.MoveUsedCard(myPlayer1PickedCard);
             myPlayer2.MoveUsedCard(myPlayer2PickedCard);
@@ -169,7 +212,7 @@ public class GameManager : MonoBehaviour
         Card localCard2 = myPlayer2PickedCard;
 
         if (localCard1.GetCardType() == localCard2.GetCardType() &&
-            (localCard1.GetCardType() != CardType.MOVEMENTLEFT || localCard1.GetCardType() != CardType.MOVEMENTRIGHT)
+            (localCard1.GetCardType() != CardType.MOVEMENTLEFT && localCard1.GetCardType() != CardType.MOVEMENTRIGHT)
         )
         {
             myResolutionText.text = "DUCE !";
@@ -413,7 +456,7 @@ public class GameManager : MonoBehaviour
                 myPlayer1Image.position = myPositions[myPlayer1Position].position;
                 myPlayer2Image.position = myPositions[myPlayer2Position].position;
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(2f);
             }
         }
         localCard1.ResetUsage();

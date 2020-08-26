@@ -167,39 +167,7 @@ public class DeckBuilder : MonoBehaviour
 
     private void ChangeImage()
     {
-        switch (myFocusedCard.GetCardType())
-        {
-            case CardType.BOW:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Bow");
-                    break;
-                }
-            case CardType.MOVEMENTLEFT:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Run_L");
-                    break;
-                }
-            case CardType.MOVEMENTRIGHT:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Run_R");
-                    break;
-                }
-            case CardType.SHIELD:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Shield");
-                    break;
-                }
-            case CardType.SPELL:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Spell");
-                    break;
-                }
-            case CardType.SWORD:
-                {
-                    myInspectImage.sprite = Resources.Load<Sprite>("Textures/Sword");
-                    break;
-                }
-        }
+        myInspectImage.sprite = Data.GetSpriteOfType(myFocusedCard.GetCardType());
     }
 
     public void ChangeCardTo(int aType)

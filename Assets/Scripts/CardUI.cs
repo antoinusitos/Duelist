@@ -24,39 +24,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler
 
         myCost.text = myCard.GetCost().ToString();
         myValue.text = myCard.GetCurrentValue().ToString();
-        switch(myCard.GetCardType())
-        {
-            case CardType.BOW:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Bow");
-                    break;
-                }
-            case CardType.MOVEMENTLEFT:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Run_L");
-                    break;
-                }
-            case CardType.MOVEMENTRIGHT:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Run_R");
-                    break;
-                }
-            case CardType.SHIELD:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Shield");
-                    break;
-                }
-            case CardType.SPELL:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Spell");
-                    break;
-                }
-            case CardType.SWORD:
-                {
-                    myImage.sprite = Resources.Load<Sprite>("Textures/Sword");
-                    break;
-                }
-        }
+        myImage.sprite = Data.GetSpriteOfType(myCard.GetCardType());
     }
 
     public void AssignCard(Card aCard, int anIndex)
