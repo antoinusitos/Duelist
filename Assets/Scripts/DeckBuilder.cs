@@ -47,6 +47,9 @@ public class DeckBuilder : MonoBehaviour
     private InputField myInputField = null;
     private string myDeckName = "";
 
+    [SerializeField]
+    private Button mySaveButton = null;
+
     private void Start()
     {
         /* myDeck = new Card[10];
@@ -118,6 +121,16 @@ public class DeckBuilder : MonoBehaviour
         }
         mySlider.value = myCurrentDeckValue / 100.0f;
         myText.text = myCurrentDeckValue + " / 100";
+        if(myCurrentDeckValue > 100)
+        {
+            myText.color = Color.red;
+            mySaveButton.interactable = false;
+        }
+        else
+        {
+            myText.color = Color.white;
+            mySaveButton.interactable = true;
+        }
     }
 
     public void ChangeCurrentValue(int aValue)

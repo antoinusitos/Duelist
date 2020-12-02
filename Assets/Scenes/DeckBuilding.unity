@@ -4590,6 +4590,7 @@ MonoBehaviour:
   myInspectPanel: {fileID: 1796020260}
   myNewValueSlider: {fileID: 553891229}
   myInputField: {fileID: 217610034}
+  mySaveButton: {fileID: 1543835215}
 --- !u!1 &1713030967
 GameObject:
   m_ObjectHideFlags: 0

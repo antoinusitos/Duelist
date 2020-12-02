@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        myPlayer1HealthText.text = "Player 1 health : " + GetPlayerHealth(1);
-        myPlayer2HealthText.text = "Player 2 health : " + GetPlayerHealth(2);
+        myPlayer1HealthText.text = "<b>Player 1 -</b> health : " + GetPlayerHealth(1);
+        myPlayer2HealthText.text = "<b>Player 2 -</b> health : " + GetPlayerHealth(2);
 
         if(Input.GetKeyDown(KeyCode.P))
         {
