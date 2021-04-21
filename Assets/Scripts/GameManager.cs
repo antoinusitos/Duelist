@@ -2,8 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using System.IO;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     private Player myPlayer1 = null;
     private Player myPlayer2 = null;
@@ -72,10 +74,18 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        myPlayer1 = new Player(1);
-        myPlayer2 = new Player(2);
+        //myPlayer1 = new Player(1);
+        //myPlayer2 = new Player(2);
 
-        StartCoroutine("GameLoop");
+        if(PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("IsMaster");
+            StartCoroutine("GameLoop");
+        }
+        else
+        {
+            Debug.Log("NotMaster");
+        }
     }
 
     private void Update()
@@ -92,8 +102,20 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameLoop()
     {
-        myPlayer1.InitPlayer();
-        myPlayer2.InitPlayer();
+        Player[] players = null;
+
+        while(players == null || players.Length < 2)
+        {
+            Debug.Log("Searching for players");
+            players = FindObjectsOfType<Player>();
+            yield return null;
+        }
+
+        myPlayer1 = players[0];
+        myPlayer2 = players[1];
+
+        myPlayer1.SetPlayerNumber(1);
+        myPlayer2.SetPlayerNumber(2);
 
         yield return new WaitForSeconds(0.5f);
 

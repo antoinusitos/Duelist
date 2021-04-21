@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-public class Player
+public class Player : MonoBehaviour
 {
     private Card[] myDeck = null;
 
@@ -19,16 +19,34 @@ public class Player
         myPlayerNumber = aPlayerNumber;
     }
 
+    public void SetPlayerNumber(int aPlayerNumber)
+    {
+        myPlayerNumber = aPlayerNumber;
+    }
+
     public void InitPlayer()
     {
         myHealth = 3;
         myChoices = new Card[2];
         myDeck = new Card[10];
-        FillDeck();
+        //FillDeck();
 
-        CheckDeckValidity();
+        //CheckDeckValidity();
 
         //DEBUGFILLDECK();
+    }
+
+    public void SetDeck(int[] aDeck)
+    {
+        int deckIndex = 0;
+        for (int i = 0; i < aDeck.Length; i += 2)
+        {
+            CardType cardType = (CardType)aDeck[i];
+            int value = aDeck[i + 1];
+            myDeck[deckIndex] = new Card();
+            myDeck[deckIndex].InitCard(cardType, value);
+            deckIndex++;
+        }
     }
 
     private void FillDeck()
