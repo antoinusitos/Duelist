@@ -35,6 +35,11 @@ public class LevelsBuilder : EditorWindow
         {
             Build();
         }
+
+        if (GUILayout.Button("Launch"))
+        {
+            Launch();
+        }
     }
 
     public void Build()
@@ -72,5 +77,20 @@ public class LevelsBuilder : EditorWindow
             proc.StartInfo.FileName = path + "/" + myGameName + ".exe";
             proc.Start();
         }
+    }
+
+    public void Launch()
+    {
+        string path = Application.dataPath;
+        string[] members = path.Split('/');
+        path = "";
+        for (int i = 0; i < members.Length - 1; i++)
+        {
+            path += members[i] + "/";
+        }
+        path += "Build";
+        Process proc = new Process();
+        proc.StartInfo.FileName = path + "/" + myGameName + ".exe";
+        proc.Start();
     }
 }

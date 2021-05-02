@@ -16,8 +16,6 @@ public class LobbyController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private int myPlayerReady = 0;
 
-    public const byte ReadyEventCode = 1;
-
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -43,7 +41,7 @@ public class LobbyController : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            AddReady(aDeck);
+            AddReady(aDeck, true);
         }
         else
         {
@@ -54,7 +52,7 @@ public class LobbyController : MonoBehaviourPunCallbacks, IOnEventCallback
     private void SendReady(int[] aDeck)
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(ReadyEventCode, aDeck, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(Data.ReadyEventCode, aDeck, raiseEventOptions, SendOptions.SendReliable);
     }
 
     public void OnEvent(EventData photonEvent)
@@ -64,23 +62,23 @@ public class LobbyController : MonoBehaviourPunCallbacks, IOnEventCallback
 
         byte eventCode = photonEvent.Code;
 
-        if (eventCode == ReadyEventCode)
+        if (eventCode == Data.ReadyEventCode)
         {
-            object data = (object)photonEvent.CustomData;
+            object data = photonEvent.CustomData;
 
             int[] deck = (int[])data;
 
-            AddReady(deck);
+            AddReady(deck, false);
         }
     }
 
-    private void AddReady(int[] aDeck)
+    private void AddReady(int[] aDeck, bool isMaster)
     {
         Debug.Log("Creating Player");
         GameObject playerObj = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayerMain"), Vector3.zero, Quaternion.identity);
         playerObj.transform.parent = transform;
         Player player = playerObj.GetComponent<Player>();
-        player.InitPlayer();
+        player.InitPlayer(isMaster);
         player.SetDeck(aDeck);
         myPlayerReady++;
         if(myPlayerReady == 2)

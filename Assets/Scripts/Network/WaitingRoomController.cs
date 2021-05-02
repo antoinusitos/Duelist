@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WaitingRoomController : MonoBehaviourPunCallbacks
 {
@@ -12,5 +13,15 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel(multiplayerSceneIndex);
         }
+    }
+
+    public void Quit()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
     }
 }

@@ -14,6 +14,12 @@ public class Player : MonoBehaviour
 
     private int myPlayerNumber = 0;
 
+    private bool myIsMaster = false;
+
+    private int myID = -1;
+
+    private Photon.Realtime.Player myPhotonPlayer = null;
+
     public Player(int aPlayerNumber)
     {
         myPlayerNumber = aPlayerNumber;
@@ -24,8 +30,24 @@ public class Player : MonoBehaviour
         myPlayerNumber = aPlayerNumber;
     }
 
-    public void InitPlayer()
+    public int GetPlayerNumber()
     {
+        return myPlayerNumber;
+    }
+
+    public void SetPhotonPlayer(Photon.Realtime.Player aPlayer)
+    {
+        myPhotonPlayer = aPlayer;
+    }
+
+    public bool GetIsMaster()
+    {
+        return myIsMaster;
+    }
+
+    public void InitPlayer(bool isMaster)
+    {
+        myIsMaster = isMaster;
         myHealth = 3;
         myChoices = new Card[2];
         myDeck = new Card[10];
@@ -46,6 +68,17 @@ public class Player : MonoBehaviour
             myDeck[deckIndex] = new Card();
             myDeck[deckIndex].InitCard(cardType, value);
             deckIndex++;
+        }
+    }
+
+    public void ShuffleDeck()
+    {
+        for(int i = 0; i < myDeck.Length; i++)
+        {
+            Card temp = myDeck[i];
+            int rand = Random.Range(0, myDeck.Length);
+            myDeck[i] = myDeck[rand];
+            myDeck[rand] = temp;
         }
     }
 
@@ -212,6 +245,11 @@ public class Player : MonoBehaviour
     public int GetHealth()
     {
         return myHealth;
+    }
+
+    public void SetHealth(int aHealth)
+    {
+        myHealth = aHealth;
     }
 
     public void DeckToString()

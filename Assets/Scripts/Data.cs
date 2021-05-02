@@ -12,6 +12,18 @@ public enum CardType
 
 public class Data
 {
+    public static byte ReadyEventCode = 1;
+    public static byte CardEventCode = 2;
+    public static byte SelectionEventCode = 3;
+    public static byte PickedEventCode = 4;
+    public static byte HidePickedEventCode = 5;
+    public static byte UpdateClientValuesEventCode = 6;
+    public static byte LoserEventCode = 7;
+    public static byte ClientLeaveRoom = 8;
+    public static byte ClientUpdateResolutionText = 9;
+    public static byte ClientShowSide = 10;
+    public static byte ClientSendPlayersName = 11;
+
     public static Sprite GetSpriteOfType(CardType aCardType)
     {
         switch (aCardType)

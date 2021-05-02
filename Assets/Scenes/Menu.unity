@@ -1611,6 +1611,11 @@ PrefabInstance:
       propertyPath: myInputField
       value: 
       objectReference: {fileID: 252563271}
+    - target: {fileID: 9008292528307820520, guid: 63be7b027ae9734449bd1ca69b9336eb,
+        type: 3}
+      propertyPath: myStartButton
+      value: 
+      objectReference: {fileID: 566074793}
     - target: {fileID: 9008292528307820521, guid: 63be7b027ae9734449bd1ca69b9336eb,
         type: 3}
       propertyPath: m_RootOrder

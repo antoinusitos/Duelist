@@ -8,15 +8,35 @@ public class NetworkController : MonoBehaviourPunCallbacks
     [SerializeField]
     private InputField myInputField = null;
 
+    [SerializeField]
+    private Button myStartButton = null;
+
+    private bool myIsConnected = false;
+
     private void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        myStartButton.interactable = false;
+        if(!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("We are now connected to the " + PhotonNetwork.CloudRegion + " server !");
         PhotonNetwork.AutomaticallySyncScene = true;
+        myIsConnected = true;
+    }
+
+    private void Update()
+    {
+        if(myIsConnected && !myStartButton.interactable && myInputField.text != string.Empty)
+        {
+            myStartButton.interactable = true;
+        }
+        else if(myIsConnected && myStartButton.interactable && myInputField.text == string.Empty)
+        {
+            myStartButton.interactable = false;
+        }
     }
 
     public void QuickStart()
