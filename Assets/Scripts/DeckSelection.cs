@@ -44,27 +44,6 @@ public class DeckSelection : MonoBehaviour
 
     public void SelectDeck(ButtonDeckSelection aButton)
     {
-        /*if (aButton.GetTeam() == 1)
-        {
-            if(myPlayer1CurrentSelection != null)
-            {
-                myPlayer1CurrentSelection.ShowSelected(false);
-            }
-            myPlayer1CurrentSelection = aButton;
-            myPlayer1CurrentSelection.ShowSelected(true);
-            GameSettings.GetInstance().SetPlayerDeck(1, myPlayer1CurrentSelection.GetDeckSelection());
-        }
-        else
-        {
-            if (myPlayer2CurrentSelection != null)
-            {
-                myPlayer2CurrentSelection.ShowSelected(false);
-            }
-            myPlayer2CurrentSelection = aButton;
-            myPlayer2CurrentSelection.ShowSelected(true);
-            GameSettings.GetInstance().SetPlayerDeck(2, myPlayer2CurrentSelection.GetDeckSelection());
-        }*/
-
         if (myPlayer1CurrentSelection != null)
         {
             myPlayer1CurrentSelection.ShowSelected(false);
@@ -83,11 +62,13 @@ public class DeckSelection : MonoBehaviour
 #endif
         if (lines != null)
         {
+            int lineIndex = 0;
             for (int i = 0; i < lines.Length; i++)
             {
                 string[] line = lines[i].Split('-');
-                deck[i] = int.Parse(line[0]);
-                deck[i + 1] = int.Parse(line[1]);
+                deck[lineIndex] = int.Parse(line[0]);
+                deck[lineIndex + 1] = int.Parse(line[1]);
+                lineIndex += 2;
             }
         }
 

@@ -1,0 +1,3 @@
+les cartes ne montrent pas bien les choix
+les decks ne se sauvegardent pas
+il faut envoyer les étapes de résolutions à l'autre joueur

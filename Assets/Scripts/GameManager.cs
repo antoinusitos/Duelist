@@ -248,6 +248,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void ShowChoices(int[] cards, bool isMaster)
     {
+        Debug.Log("cards 1:" + cards[0] + " value : " + cards[1]);
+        Debug.Log("cards 2:" + cards[2] + " value : " + cards[3]);
+
         myChoice1Button.gameObject.SetActive(true);
         myChoice2Button.gameObject.SetActive(true);
 
