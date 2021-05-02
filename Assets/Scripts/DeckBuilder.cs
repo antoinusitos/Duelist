@@ -50,6 +50,15 @@ public class DeckBuilder : MonoBehaviour
     [SerializeField]
     private Button mySaveButton = null;
 
+    [SerializeField]
+    private GameObject myChooseSection = null;
+
+    [SerializeField]
+    private GameObject myEditSection = null;
+
+    [SerializeField]
+    private LoadDeck myLoadDeck = null;
+
     private void Start()
     {
         /* myDeck = new Card[10];
@@ -240,5 +249,9 @@ public class DeckBuilder : MonoBehaviour
 #if UNITY_EDITOR
         AssetDatabase.ImportAsset("Assets/Resources/Deck/" + myDeckName + ".json");
 #endif
+
+        myEditSection.SetActive(false);
+        myChooseSection.SetActive(true);
+        myLoadDeck.Clean();
     }
 }

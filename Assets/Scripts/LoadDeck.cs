@@ -21,6 +21,20 @@ public class LoadDeck : MonoBehaviour
 
     private void Start()
     {
+        LoadDecks();
+    }
+
+    public void Clean()
+    {
+        for(int i = 0; i < myButtonHandler.childCount; i++)
+        {
+            Destroy(myButtonHandler.GetChild(i).gameObject);
+        }
+        LoadDecks();
+    }
+
+    private void LoadDecks()
+    {
         string path = "";
 
 #if UNITY_EDITOR
@@ -37,7 +51,7 @@ public class LoadDeck : MonoBehaviour
                 continue;
             Button button = Instantiate(myPrefabDeckChoosing, myButtonHandler);
             button.transform.GetChild(0).GetComponent<Text>().text = file.Name;
-            button.onClick.AddListener(delegate { OpenEdit(file); } );
+            button.onClick.AddListener(delegate { OpenEdit(file); });
         }
     }
 
