@@ -111,6 +111,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
+    /////////////////////////////////////////////////
+    ///NETWORKING
+    /////////////////////////////////////////////////
+
     private void SendChoices(int[] someCards)
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
@@ -127,6 +131,44 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(Data.ClientShowSide, aSide, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void SendHidePickedCardsClient()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(Data.HidePickedEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void SendClientPlayersName()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        string[] toSend = new string[] { myPlayer1Name, myPlayer2Name };
+        PhotonNetwork.RaiseEvent(Data.ClientSendPlayersName, toSend, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void SendClientUpdateValues()
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        int[] toSend = new int[] { myPlayer1Position, myPlayer2Position, myPlayer1.GetHealth(), myPlayer2.GetHealth() };
+        PhotonNetwork.RaiseEvent(Data.UpdateClientValuesEventCode, toSend, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void SendResolutionToClient(string aResolution)
+    {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(Data.ClientUpdateResolutionText, aResolution, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    private void ClientLeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    private void ShowPickedCardsToClient()
+    {
+        int[] toSend = new int[] { (int)myPlayer1PickedCard.GetCardType(), myPlayer1PickedCard.GetValue(), (int)myPlayer2PickedCard.GetCardType(), myPlayer2PickedCard.GetValue() };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(Data.PickedEventCode, toSend, raiseEventOptions, SendOptions.SendReliable);
     }
 
     public void OnEvent(EventData photonEvent)
@@ -245,6 +287,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             myPlayer2Name = values[1];
         }
     }
+
+    /////////////////////////////////////////////////
+    ///NETWORKING
+    /////////////////////////////////////////////////
 
     private void ShowChoices(int[] cards, bool isMaster)
     {
@@ -443,38 +489,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.LeaveRoom();
     }
 
-    private void SendHidePickedCardsClient()
-    {
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(Data.HidePickedEventCode, null, raiseEventOptions, SendOptions.SendReliable);
-    }
-
-    private void SendClientPlayersName()
-    {
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        string[] toSend = new string[] { myPlayer1Name, myPlayer2Name };
-        PhotonNetwork.RaiseEvent(Data.ClientSendPlayersName, toSend, raiseEventOptions, SendOptions.SendReliable);
-    }
-
-    private void SendClientUpdateValues()
-    {
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        int[] toSend = new int[] { myPlayer1Position, myPlayer2Position, myPlayer1.GetHealth(), myPlayer2.GetHealth() };
-        PhotonNetwork.RaiseEvent(Data.UpdateClientValuesEventCode, toSend, raiseEventOptions, SendOptions.SendReliable);
-    }
-
-    private void ClientLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
-    private void ShowPickedCardsToClient()
-    {
-        int[] toSend = new int[] { (int)myPlayer1PickedCard.GetCardType(), myPlayer1PickedCard.GetValue(), (int)myPlayer2PickedCard.GetCardType(), myPlayer2PickedCard.GetValue() };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(Data.PickedEventCode, toSend, raiseEventOptions, SendOptions.SendReliable);
-    }
-
     private void ShowPickedCards()
     {
         myPlayer1Card.transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -517,12 +531,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
             myPlayer1Selection = aCard;
         else
             myPlayer2Selection = aCard;
-    }
-
-    private void SendResolutionToClient(string aResolution)
-    {
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(Data.ClientUpdateResolutionText, aResolution, raiseEventOptions, SendOptions.SendReliable);
     }
 
     private IEnumerator Resolution()
@@ -781,6 +789,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
                 myPlayer1Image.position = myPositions[myPlayer1Position].position;
                 myPlayer2Image.position = myPositions[myPlayer2Position].position;
+
+                SendClientUpdateValues();
 
                 yield return new WaitForSeconds(2f);
             }
